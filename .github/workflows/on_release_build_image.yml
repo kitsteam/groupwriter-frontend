@@ -58,4 +58,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           provenance: false
-          build-args: VITE_HOCUSPOCUS_SUBDOMAIN=write-backend
+          build-args: |
+            VITE_HOCUSPOCUS_SUBDOMAIN=write-backend
+            VITE_LEGAL_URL=https://kits.blog/impressum/
+            VITE_PRIVACY_STATEMENT_URL=https://kits.blog/datenschutz/
+                  
