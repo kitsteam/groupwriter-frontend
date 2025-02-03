@@ -25,6 +25,7 @@
         "undo": "Rückgängig",
         "redo": "Wiederherstellen",
         "quote": "Zitat",
+        "code": "Code",
         "textColor": "Textfarbe",
         "showComments": "Kommentare anzeigen",
         "link": {
@@ -91,7 +92,8 @@
         "linkLegal": "Impressum",
         "buttons": {
           "delete": "Text löschen"
-        }
+        },
+        "confirmDelete": "Wirklich löschen?"
       }
     },
     "page": {
