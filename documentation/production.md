@@ -1,29 +1,16 @@
+# Setup for Production
+## Docker Compose
+Important: Currently, the backend is expected to run on the subdomain `write-backend` as it is configured within the frontend during build time.
+
+```
 services:
   editor:
-    build:
-      context: .
-      target: development
-    tty: true
-    stdin_open: true
-    environment:
-      BINDING: "0.0.0.0"
-      VITE_HOCUSPOCUS_SERVER_URL: "http://localhost:5173/backend"
-      TESTING_PLAYWRIGHT_WS_ENDPOINT: "ws://playwright:9323"
-      TESTING_PLAYWRIGHT_BASE_URL: "http://editor:5173"
+    image: ghcr.io/b310-digital/groupwriter-frontend:latest
     ports:
-      - "${APP_FRONTEND_PORT:-5173}:5173"
-      # preview
-      - "4173:4173"
-    volumes:
-      - .:/home/node/app
-      #- app_editor_node_modules:/home/node/app
+      - "${APP_FRONTEND_PORT:-8080}:8080"
   backend:
-    build:
-      context: ../groupwriter-backend
-      target: development
+    image: ghcr.io/b310-digital/groupwriter-backend:latest
     container_name: backend
-    tty: true
-    stdin_open: true
     environment:
       DATABASE_URL: postgresql://groupwriter-user:groupwriter-password@postgres/groupwriter-backend-dev
       PORT: 3000
@@ -34,14 +21,13 @@ services:
       OBJECT_STORAGE_REGION: local
       OBJECT_STORAGE_USER: ${DOCKER_COMPOSE_APP_OBJECT_STORAGE_USER}
       OBJECT_STORAGE_PASSWORD: ${DOCKER_COMPOSE_APP_OBJECT_STORAGE_PASSWORD}
+      # needs to be exactly 32 chars
       VAULT_ENCRYPTION_KEY_BASE64: ${DOCKER_COMPOSE_APP_VAULT_ENCRYPTION_KEY_BASE64}
-      FEATURE_REMOVE_DOCUMENTS_TOGGLE: ${DOCKER_COMPOSE_APP_FEATURE_REMOVE_DOCUMENTS_TOGGLE:-true}
+      # delete old documents
+      FEATURE_REMOVE_DOCUMENTS_TOGGLE: ${DOCKER_COMPOSE_APP_FEATURE_REMOVE_DOCUMENTS_TOGGLE:-false}
       FEATURE_REMOVE_DOCUMENTS_MAX_AGE_IN_DAYS: ${DOCKER_COMPOSE_APP_FEATURE_REMOVE_DOCUMENTS_MAX_AGE_IN_DAYS:-730}
     ports:
       - "3000:3000"
-    volumes:
-      - ../groupwriter-backend:/home/node/app
-      #- app_backend_node_modules:/home/node/app/node_modules
     restart: always
   postgres:
     image: postgres:15-alpine
@@ -70,16 +56,34 @@ services:
     volumes:
       - ~/minio/data:/data
     command: server /data --console-address ":9001"
-  playwright:
-    image: mcr.microsoft.com/playwright:v1.51.0-noble
-    container_name: playwright
-    depends_on:
-      - editor
-    expose:
-      - "9323"
-    command: ["npx", "playwright", "run-server", "--port=9323"]
 
 volumes:
   postgres_data:
-  app_editor_node_modules:
-  app_backend_node_modules:
+```
+
+Example for a `.env` file:
+
+```
+PORT=3000
+DOCKER_COMPOSE_APP_OBJECT_STORAGE_USER=
+DOCKER_COMPOSE_APP_OBJECT_STORAGE_PASSWORD=
+# needs to be exactly 32 chars
+DOCKER_COMPOSE_APP_VAULT_ENCRYPTION_KEY_BASE64=
+DOCKER_COMPOSE_APP_FEATURE_REMOVE_DOCUMENTS_TOGGLE=false
+DOCKER_COMPOSE_APP_FEATURE_REMOVE_DOCUMENTS_MAX_AGE_IN_DAYS=730
+
+DOCKER_COMPOSE_MINIO_USER=minio
+DOCKER_COMPOSE_MINIO_PASSWORD=
+```
+
+Then start it:
+
+```
+docker compose up -d
+```
+
+And visit the app at `localhost:8080`!
+
+## Options and configurations
+
+Please see the dedicated [backend](https://github.com/b310-digital/groupwriter-backend?tab=readme-ov-file#options--env-variables) repo for details on configuration options.
