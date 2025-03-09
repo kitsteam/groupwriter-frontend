@@ -1,10 +1,12 @@
 import { Link, useNavigate } from 'react-router';
 import { createDocument } from '../utils/serverRequests';
 import { getLocalMostRecentThreeDocuments } from '../utils/localstorage';
+import { useTranslation } from 'react-i18next';
 import { FlashMessage } from '../components/FlashMessage';
 
 function LandingPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const sortedDocuments = getLocalMostRecentThreeDocuments();
 
@@ -69,7 +71,7 @@ function LandingPage() {
               })();
             }}
           >
-            Text erstellen
+            {t('page.landing.buttons.new')}
           </button>
           <p className="text-neutral-500 mt-4 text-xs">
             Dieses Tool darf nur in Bildungskontexten genutzt werden. Die
