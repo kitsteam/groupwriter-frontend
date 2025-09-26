@@ -6,12 +6,12 @@
   "main": "dist/index.js",
   "homepage": "https://b310.de",
   "devDependencies": {
-    "@tiptap/core": "^2.12.0",
-    "@tiptap/pm": "^2.12.0",
+    "@tiptap/core": "^3.6.1",
+    "@tiptap/pm": "^3.6.1",
     "yjs": "^13.6.27",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.5",
-    "uuid": "^11.1.0"
+    "typescript": "^5.9.2",
+    "vite": "^7.1.7",
+    "uuid": "^13.0.0"
   },
   "scripts": {
     "clean": "rm -rf dist",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/b310/tiptap-extension-image-delete-callback"
+    "url": "https://github.com/b310-digital/groupwriter-frontend/packages/tiptap-extension-image-delete-callback"
   },
   "author": "B310 Digital GmbH",
   "license": "MIT",

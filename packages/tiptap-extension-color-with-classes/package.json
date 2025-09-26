@@ -23,16 +23,12 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.12.0",
-    "@tiptap/extension-text-style": "^2.12.0"
-  },
-  "peerDependencies": {
-    "@tiptap/core": "^2.7.0",
-    "@tiptap/extension-text-style": "^2.7.0"
+    "@tiptap/core": "^3.6.1",
+    "@tiptap/extension-text-style": "^3.6.1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/b310/tiptap-extension-color-with-classes"
+    "url": "https://github.com/b310-digital/groupwriter-frontend/packages/tiptap-extension-color-with-classes"
   },
   "scripts": {
     "clean": "rm -rf dist",
